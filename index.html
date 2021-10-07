@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Local Storage</title>
+</head>
+<body>
+    <section class="container">
+        <h1>Student details form</h1>
+        <div class="form">
+            <form id="form" action="submit" method="POST">
+                <label for="Name">Name</label>
+                <input type="text" id="inputName" placeholder="Enter name">
+                
+                <label for="email">Email</label>
+                <input type="email" id="inputEmail" placeholder="something@gmail.com">
+
+                <label for="number">Number</label>
+                <input type="TEL" id="inputNumber" placeholder="Enter phone number">
+
+                <label for="country">Address</label>
+                <input type="text" id="inputAddress" placeholder="Enter your address">
+                
+                <button type="button" id="add" class="add">Add details to local storage</button>
+            </form>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div id="outputTable" style="padding-top: 80px;">
+            <table class="information-table" id="table">
+                <thead>
+                    <th>name</th>
+                    <th>email</th>
+                    <th>number</th>
+                    <th>address</th>
+                    <th>time</th>
+                    <th>Edit</th>
+                </thead>
+                <tbody id='tbody'></tbody>
+            </table>
+        </div>
+        <div class="btn">
+            <!-- <button id="sortByTimeStamp" class="sort1" onclick="sortByTime()"> sort by timestamp</button> -->
+            <button id="sortByName" class="sort"onclick="sortByName()" >Sort by name</button>
+        </div>
+
+        
+    </section>
+    <script>
+        
+        window.addEventListener('DOMContentLoaded',generateTable)
+        const addDetailsToLocalstorage = document.getElementById('add')
+        addDetailsToLocalstorage.addEventListener('click',addDetails)
+
+        
+        
+        
+
+        // fuction to store data in localstorage
+        function addDetails(){
+            const name= document.getElementById('inputName').value;
+            const email=document.getElementById('inputEmail').value;
+            const number=document.getElementById('inputNumber').value;
+            const address=document.getElementById('inputAddress').value;
+
+            const date = new Date().getTime()+2;
+            
+
+            const studentDetails = JSON.parse(localStorage.getItem("studentDetails")) || [];
+            let  exist = studentDetails.length && JSON.parse(localStorage.getItem('studentDetails')).
+            some(data=>data.email.toLowerCase()==document.getElementById('inputEmail').value.toLowerCase());
+            if(name==='' || email==='' || number===''|| address===''){
+                console.log("please fill all details");
+                alert('please fill all the fields')
+                document.getElementById('form').reset();
+            }   
+            else{
+                if(!exist){
+                    studentDetails.push({
+                    name: document.getElementById('inputName').value,
+                    email: document.getElementById('inputEmail').value,
+                    number: document.getElementById('inputNumber').value,
+                    address: document.getElementById('inputAddress').value,
+                    time :date
+                    });
+                    localStorage.setItem("studentDetails",JSON.stringify(studentDetails));
+                    console.log(localStorage,'hello from local');
+                    generateTable();
+                    document.getElementById('form').reset();
+
+                }
+                else{
+                console.log('data duplicate');
+                alert('data dublicate!!please use another email ')
+                document.getElementById('form').reset();
+                
+
+                }
+            }
+            
+        }
+
+
+        //function to display Localstorage data in table 
+        function generateTable(){
+            console.log(localStorage.getItem('studentDetails'),'hello from table generate');
+            if(localStorage.getItem("studentDetails")){
+                let tbody=document.getElementById('tbody');
+                
+                tbody.innerHTML='';
+
+                JSON.parse(localStorage.getItem('studentDetails')).forEach(data=>{
+                        tbody.innerHTML+=`
+                            <tr>
+                                <td>${data.name}</td>
+                                <td>${data.email}</td>
+                                <td>${data.number}</td>
+                                <td>${data.address}</td>
+                                <td>${data.time}</td>
+                        
+                                <td><button class="deleteButton" id="deleteButton" onclick="removeFromLocalstorage()">Delete</button></td>
+                                 
+                            </tr>
+                           `;
+                })  
+            }
+            
+        }
+        
+
+
+        //removeFromLocalstorage(), deleteItem(),removeItem() functions are used for removing data from LocalStorage
+        function removeFromLocalstorage(){
+            console.log('hello from delete1');
+            console.log(event.target);
+            deleteItem(event.target);
+        }
+
+        function deleteItem(element){
+            const name= element.parentElement.parentElement.firstElementChild.innerText;
+            removeItem(name);
+            element.parentElement.parentElement.remove() 
+        }
+
+        function removeItem(name){
+            let details = JSON.parse(localStorage.getItem('studentDetails'))
+            
+            console.log(details,"hello from delete");
+            details.forEach(function(data,index){
+                
+                if(data.name == name){
+                    console.log("hello nira")
+                    details.splice(index, 1)
+
+                }
+           })
+           localStorage.setItem('studentDetails',JSON.stringify(details))
+        }
+
+
+        
+        
+        function sortByName(){
+            let table, rows, switching, i, rowOne,rowTwo , doSwitch,order,count=0;
+            table = document.getElementById('table');
+            switching = true;
+            order = "ascend"
+            while(switching){
+                switching = false;
+                rows = table.rows;
+                for (i = 1; i < (rows.length - 1); i++) {
+                    doSwitch = false;
+                    console.log(' sort working')
+                    rowOne = rows[i].getElementsByTagName('TD')[0];
+                    rowTwo = rows[i + 1].getElementsByTagName('TD')[0];
+                    if(order=="ascend"){
+                        if (rowOne.innerHTML.toLowerCase() > rowTwo.innerHTML.toLowerCase()) {
+                            doSwitch = true;
+                            break;
+                        }
+                    }
+                    else if(order=="descend"){
+                        if (rowOne.innerHTML.toLowerCase() < rowTwo.innerHTML.toLowerCase()) {
+                            doSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (doSwitch){
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                     count++;
+                }else{
+                    if(count==0 && order=="ascend"){
+                        order="descend";
+                        switching=true;
+                    }
+                }
+            }
+            
+        }
+        
+
+        
+
+        // function sortByTime(){
+        //     let table, rows, switching, i, rowOne,rowTwo , doSwitch,order,count=0;
+        //     table = document.getElementById('table');
+        //     switching = true;
+        //     order = "ascend"
+        //     while(switching){
+        //         switching = false;
+        //         rows = table.rows;
+        //         for (i = 1; i < (rows.length - 1); i++) {
+        //             doSwitch = false;
+                   
+        //             rowOne = rows[i].getElementsByTagName('TD')[4];
+        //             rowTwo = rows[i + 1].getElementsByTagName('TD')[4];
+                    
+        //             console.log(rowOne.innerHTML);
+        //             if(order=="ascend"){
+        //                 console.log(' sorting here working')
+        //                 if (Date.parseInt(rowOne.innerHTML) > Date.parseInt(rowTwo.innerHTML)) {
+        //                     doSwitch = true;
+                            
+        //                     break;
+        //                 }
+        //             }
+        //             else if(order=="descend"){
+        //                 if (rowOne.innerHTML >rowTwo.innerHTML) {
+        //                     doSwitch = true;
+        //                     break;
+        //                 }
+        //             }
+        //         }
+        //         if (doSwitch){
+        //             rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+        //             switching = true;
+        //              count++;
+        //         }else{
+        //             if(count==0 && order=="ascend"){
+        //                 order="descend";
+        //                 switching=true;
+        //             }
+        //         }
+        //     }
+            
+        // }
+            
+        
+    </script>
+</body>
+</html>

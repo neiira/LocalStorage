@@ -1,0 +1,163 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+
+}
+
+.container{
+    width: 1170px;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    /* background-color: whitesmoke; */
+}
+    h1{
+        font-size: 40px;
+        color:black;
+        text-align: left;
+        margin-left: 290px;
+        padding-top: 30px;
+        font-weight: 700;
+    }
+
+    .form{
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 30px;
+        width: 50%;
+        height: 400px;
+        background-color: white;
+        box-sizing:border-box;
+        box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;;
+    }
+
+    form{
+        padding-top: 30px;
+        padding-left: 15%;
+    }
+
+    form label{
+        display: inline-block;
+        width: 80%;
+        padding-bottom: 8px;
+        font-size: 17px;
+        color:red;
+        font-weight: 500;
+        
+    }
+    form input{
+        width: 80%;
+        height: 20px;
+        margin-bottom: 20px;
+        outline:none;
+        font-size:14px;
+        border:none;
+        border-bottom:1px solid #b3b3b3;
+    }
+    
+    .message{
+        margin-left: 290px;
+        width: 400px;
+        text-align: left;
+        margin-top: 20px;
+        font-size: 20px;
+        font-weight: 600;
+        
+    }
+    
+    .add{
+        width: 200px;
+        margin-top: 30px;
+        border:none;
+        outline:none;
+        height:32px;
+        background:#1E90FF;
+        color:#fff;
+        font-size:14px;
+        font-weight:bold;
+        }
+
+    .add:hover{
+        cursor:pointer;
+        color:tomato;
+    }
+
+    .information-table tbody tr:hover{
+        font-weight: 400;
+        color:green;
+    }
+    .information-table{
+        border-collapse: collapse;
+        margin: auto;
+        font-size: 16px;
+        width: 780px;
+        overflow: hidden;
+        text-align: left;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        
+    }
+    
+    .information-table thead tr{
+        background-color:#1E90FF;
+        color: white; 
+        font-weight: bold;
+        font-style: normal;
+    }
+    
+    .information-table th,
+    .information-table td{
+        padding: 12px 15px;  
+    }
+    
+    .information-table tbody tr{
+        border-bottom: 1px solid snow;
+    }
+    
+    .information-table tbody tr{ 
+        background-color:whitesmoke;
+    }
+
+    .deleteButton{
+        background-color: #1E90FF;
+        border:none;
+        font-weight: 600;
+        color: white;
+        width: 70px;
+        height: 30px;
+        border-radius: 5px;
+    }
+
+    .deleteButton:hover{
+        color:green;
+        cursor:pointer;
+    }
+
+    .btn{
+        padding:30px 200px;
+    }
+
+    .sort1{
+        background-color: #1E90FF;
+        border:none;
+        font-weight: 600;
+        color: white;
+        width: 150px;
+        height: 30px;
+        border-radius: 5px;
+    }
+
+    .sort{
+        padding-left:100;
+        background-color: #1E90FF;
+        border:none;
+        font-weight: 600;
+        color: white;
+        width: 100px;
+        height: 30px;
+        border-radius: 5px;
+    }
+    
